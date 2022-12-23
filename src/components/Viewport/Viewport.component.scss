@@ -1,0 +1,26 @@
+.app-viewport {
+  &__container{
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    &-viewport{
+      &-content{
+        max-width: 700px;
+        min-width: 375px;
+        margin: 0 auto;
+        height:calc(100vh - 60px);
+        display: flex;
+        justify-content: center;
+        &.viewport-disable{
+          margin: 0;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+  

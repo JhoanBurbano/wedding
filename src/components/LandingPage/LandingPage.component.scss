@@ -1,0 +1,93 @@
+.app-landingpage {
+  &__container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.app-video {
+  &__container {
+    align-self: flex-start;
+    position: relative;
+    &-video {
+      width: 100vw;
+      height: 100vh;
+      background: black;
+    }
+    &-controls {
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(#0000 90%, black);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      &:hover {
+        opacity: 1;
+      }
+      &-toolbar{
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        & > * {
+          transform: scale(2);
+        }
+      }
+    }
+  }
+}
+
+.app-admin__container {
+  min-height: calc(100vh - 60px);
+  width: 100vw;
+  padding: 20px;
+  &-subtitle {
+    text-align: center;
+    margin: 10px 0;
+    text-shadow: 0 0 5px #0003;
+  }
+  &-content {
+    display: flex;
+    justify-content: center;
+    &-form{
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      // justify-content: space-evenly;
+      // align-items: center;
+      padding: 20px;
+    }
+    &-card{
+      width: 600px;
+      height: 800px;
+      overflow-y:auto ;
+    }
+  }
+}
+
+.app-createform__container{
+  padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-field{
+      & input.p-inputtext {
+        width: 318px;
+      }
+      margin-bottom: 20px;
+    }
+    &-button{
+      align-self: flex-end;
+    }
+}
+
+.app-download__container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

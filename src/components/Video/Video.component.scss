@@ -1,0 +1,11 @@
+.app-gallery-video__container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &-content{
+        &>*{
+            margin-bottom: 20px;
+        }
+    text-align: center;
+    }
+}
