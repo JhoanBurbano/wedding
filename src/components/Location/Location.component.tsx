@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Viewport } from "../../enums/viewport.enums";
-import "./Location.component.scss";
+// import "./Location.component.scss";
 import { Card } from "primereact/card";
 import { Galleria } from 'primereact/galleria';
 

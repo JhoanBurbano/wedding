@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import { Card } from "primereact/card";
 import Navbar from "../Navbar/Navbar.component";
 import "./LandingPage.component.scss";
@@ -402,9 +403,8 @@ const DownloadCSV: React.FC<IServices> = ({getCSV}) => {
 
 const Location = () => {
   return (
-    <div className="app-location__container">
-      <Card>
-        <div className="app-location__container-content">
+    <div className="app-location__container" id="location">
+        <div className="app-location__container-description">
           <div className="app-location__container-content-header">
           <h1 className="app-location__container-content-header-title">MIRAVALLE</h1>
           <p className="app-location__container-content-header-subtitle">Hotel Campestre</p>
@@ -420,20 +420,19 @@ const Location = () => {
             <br />
             <GalleriaResponsiveDemo/>
           </div>
-          <div className="mapouter">
+        </div>
+          <div className="app-location__container-map">
             <h2>Ubicacion</h2>
             <br />
-            <div className="gmap_canvas">
+            <div className="app-location__container-map-canvas">
               <iframe
-                className="gmap_iframe"
+                className="app-location__container-map-canvas-iframe"
                 width="100%"
                 scrolling="no"
                 src="https://maps.google.com/maps?width=675&amp;height=400&amp;hl=en&amp;q=Miravalle, El Bordo&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
               />
             </div>
           </div>
-        </div>
-      </Card>
     </div>
   );
 };

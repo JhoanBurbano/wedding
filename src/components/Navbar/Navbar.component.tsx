@@ -59,15 +59,38 @@ const Navbar = () => {
     },
   ];
 
+  const tabs = [
+    {
+      label: 'Video',
+      icon: 'pi pi-fw pi-video',
+      url:'#video'
+    },
+    {
+      label: 'Lista',
+      icon: 'pi pi-fw pi-list',
+      url: '#list'
+    },
+    {
+      label: 'Ubicacion',
+      icon: 'pi pi-fw pi-map',
+      url: '#location'
+    },
+    {
+      label: 'Confirmar Invitacion',
+      icon: 'pi pi-fw pi-check',
+      url: '#confirm-invitation'
+    }
+  ]
+
   const start = (
     <Link to="/">
-      <h2>Landinpage</h2>
+     <img src={`${process.env.REACT_APP_ASSETS}Logo.png`} height={50} alt="" />
     </Link>
   );
   return (
     <div className="app-navbar__container">
       <div className="card">
-        <Menubar model={items} start={start} />
+        <Menubar model={tabs} start={start} />
       </div>
     </div>
   );
