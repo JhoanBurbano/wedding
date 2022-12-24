@@ -194,6 +194,7 @@ const Admin: React.FC<IServices> = (props) => {
         <div className="app-admin__container-content-form p-card p-component">
           <CreateForm {...props} />
           <AddMember {...props} />
+          {families.length ? <h4>Hay {families.length} familias</h4> : null}
         </div>
         <Card className="app-admin__container-content-card">
           <DataTable
@@ -301,7 +302,7 @@ const CreateForm: React.FC<IServices> = ({ createFamily }) => {
               <label>Nombre</label>
             </span>
           </div>
-          <Button className="app-createform__container-button">Crear</Button>
+          <Button disabled={!data.family.length} className="app-createform__container-button">Crear</Button>
         </form>
       </AccordionTab>
     </Accordion>
@@ -345,7 +346,7 @@ const AddMember: React.FC<IServices> = ({ addMemeber, families }) => {
         <form className="app-createform__container" onSubmit={onSubmit}>
           <div className="app-createform__container-field">
             <span className="p-float-label p-input-icon-right">
-              <Dropdown onChange={changeFamily} options={options} style={{
+              <Dropdown onChange={changeFamily} options={options} value={data.family} style={{
                 width: '318px'
               }}/>
               <label>Familia*</label>
@@ -367,7 +368,7 @@ const AddMember: React.FC<IServices> = ({ addMemeber, families }) => {
               <label>Apellido*</label>
             </span>
           </div>
-          <Button className="app-createform__container-button">Añadir</Button>
+          <Button className="app-createform__container-button" disabled={!(!!data.name.length && !!data.lastname.length && !!data.family.length)}>Añadir</Button>
         </form>
       </AccordionTab>
     </Accordion>
