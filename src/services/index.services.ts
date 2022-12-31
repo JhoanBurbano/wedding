@@ -49,7 +49,7 @@ const useFamilies = () => {
 
   async function addMemeber(invite: IInvites) {
     try {
-      await axios.post<IFamilies>(`${url}${invite.family}`, {
+      await axios.post<IFamilies>(`${url}families/${invite.family}`, {
         ...invite,
       });
       getFamilies();
@@ -60,7 +60,7 @@ const useFamilies = () => {
 
   async function deleteMember(idFamily: string, idInvite: string) {
     try {
-      await axios.delete<IFamilies>(`${url}$families/{idFamily}/${idInvite}`);
+      await axios.delete<IFamilies>(`${url}families/${idFamily}/${idInvite}`);
       getFamilies();
     } catch (error) {
       console.log("error", error);
