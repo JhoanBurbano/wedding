@@ -98,10 +98,23 @@
 .app-location__container {
   height: calc(100vh - 0px);
   padding-top: 80px!important;
+  &-letter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    &-description {
+      width: 80%;
+      line-height: 2ch;
+    }
+  }
   &-content{
     display: flex;
-    &-letter{
-      padding: 20px 0;
+    justify-content: space-evenly;
+    width: 80%;
+    margin: 0 auto;
+    & h2 {
+      text-align: center;
     }
     &-map {
       width: 100%;
@@ -113,17 +126,74 @@
       &-canvas {
         overflow: hidden;
         background: none !important;
-        width: 100%;
-        height: 100%;
-        border: 2px dashed black;
-        padding: 10px;
+        padding: 0 10px;
         &-iframe {
-          height: 700px;
+          width: 100%;
+          height: 550px;
           border: none;
         }
       }
     }
-    &-description {
+  }
+}
+
+
+
+.app-confirm {
+  &__container {
+    height: calc(100vh - 0px);
+    padding-top: 80px!important;
+    display: flex;
+    align-items: center;
+    &-content {
+        width: 700px;
+        &-body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            & > * {
+                margin-bottom: 10px;
+            }
+            &-rounded {
+                width: 50px;
+                height: 50px;
+                border: 1px solid green;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            &-status {
+                font-weight: 200;
+                width: 60%;
+                border: 1px solid green;
+                padding: 10px;
+                margin: 20px 0;
+                border-radius: 30px;
+                &-bold{
+                    color: green;
+                }
+            }
+            &-buttons{
+                width: 40%;
+                display: flex;
+                justify-content: space-evenly;
+            }
+            &-text{
+                width: 80%;
+                text-align: justify;
+            }
+            &-footer {
+                color: rgb(139, 79, 0);
+                width: 80%;
+                font-weight: 150;
+                text-align: justify;
+                &-bold{
+                    font-weight: 250;
+                }
+            }
+        }
     }
   }
 }

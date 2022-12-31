@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import "./Confirm.component.scss";
+// import "./Confirm.component.scss";
 import { Card } from "primereact/card";
 import React from "react";
 

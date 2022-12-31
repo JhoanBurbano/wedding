@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./LandingPage.component.scss";
 
@@ -13,7 +14,6 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import { CSVLink } from "react-csv";
-/* eslint-disable jsx-a11y/iframe-has-title */
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 // import { Dialog } from "primereact/dialog";
@@ -23,22 +23,13 @@ import Navbar from "../Navbar/Navbar.component";
 import { capitalized } from "../../utils/capitalized";
 
 const LandingPage: React.FC<IServices> = (props) => {
-  // useEffect(() => {
-  //   window.addEventListener('scroll', ()=>{
-  //     window.scroll(0,100 || (window.scrollY + window.screen.height))
-  //   })
-
-  //   return () => {
-  //     window.removeEventListener('scroll', ()=>{})
-  //   }
-  // }, [window.scrollY])
-
   return (
     <div className="app-landingpage__container">
       <Navbar />
       <Video />
       <Admin {...props} />
       <Location />
+      <Confirm />
     </div>
   );
 };
@@ -106,67 +97,62 @@ const Admin: React.FC<IServices> = (props) => {
   }
 
   function rowExpansionTemplate(data: IFamilies) {
-    return (
-      data.integrants.length ? (
-        <DataTable
-          className=""
-          value={data.integrants}
-          responsiveLayout="stack"
-          size="small"
-        >
-          <Column
-            header={() => <p>Integrantes</p>}
-            body={(invite: IInvites) => {
-              return (
-                <p
-                  style={{
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {invite.name}
-                </p>
-              );
-            }}
-          ></Column>
-          <Column
-            body={(invite: IInvites) => {
-              return (
-                <p
-                  style={{
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {invite.lastname}
-                </p>
-              );
-            }}
-          ></Column>
-          <Column
-            body={({ _id }: IInvites) => (
-              <div
+    return data.integrants.length ? (
+      <DataTable
+        className=""
+        value={data.integrants}
+        responsiveLayout="stack"
+        size="small"
+      >
+        <Column
+          header={() => <p>Integrantes</p>}
+          body={(invite: IInvites) => {
+            return (
+              <p
                 style={{
-                  width: "6ch",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  margin: "0 auto",
+                  textTransform: "capitalize",
                 }}
               >
-                <Button
-                  className="p-button-danger p-button-sm"
-                  style={{ padding: "1px", width: "3ch", height: "3ch" }}
-                  icon="pi pi-delete-left"
-                  onClick={() =>
-                    deleteMember(data._id as string, _id as string)
-                  }
-                />
-              </div>
-            )}
-            header="Acciones"
-          ></Column>
-        </DataTable>
-      ) :
-      null
-    );
+                {invite.name}
+              </p>
+            );
+          }}
+        ></Column>
+        <Column
+          body={(invite: IInvites) => {
+            return (
+              <p
+                style={{
+                  textTransform: "capitalize",
+                }}
+              >
+                {invite.lastname}
+              </p>
+            );
+          }}
+        ></Column>
+        <Column
+          body={({ _id }: IInvites) => (
+            <div
+              style={{
+                width: "6ch",
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "0 auto",
+              }}
+            >
+              <Button
+                className="p-button-danger p-button-sm"
+                style={{ padding: "1px", width: "3ch", height: "3ch" }}
+                icon="pi pi-delete-left"
+                onClick={() => deleteMember(data._id as string, _id as string)}
+              />
+            </div>
+          )}
+          header="Acciones"
+        ></Column>
+      </DataTable>
+    ) : null;
   }
 
   const allowExpansion = (rowData: IFamilies) => {
@@ -419,18 +405,22 @@ const AddMember: React.FC<IServices> = ({ addMemeber, families }) => {
   );
 };
 
-const DownloadCSV: React.FC<IServices> = ({ getCSV, getFamilies, families }) => {
+const DownloadCSV: React.FC<IServices> = ({
+  getCSV,
+  getFamilies,
+  families,
+}) => {
   const [content, setContent] = useState<Array<string[]>>([]);
-  const [ready, setReady] = useState<boolean>(false)
+  const [ready, setReady] = useState<boolean>(false);
 
-  useEffect(()=>{
-    setReady(false)
-  }, [getFamilies, families])
+  useEffect(() => {
+    setReady(false);
+  }, [getFamilies, families]);
   async function handleClick() {
     try {
       const parse = (await getCSV()) as string[][];
       setContent(parse);
-      setReady(true)
+      setReady(true);
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -439,16 +429,15 @@ const DownloadCSV: React.FC<IServices> = ({ getCSV, getFamilies, families }) => 
   return (
     <div className="app-download__container">
       <h3>Familias</h3>
-      {
-       ready ?  
-      <CSVLink data={content} filename={"dataMerge.csv"}>
-        Download csv
-      </CSVLink>
-      :
-      <Button className="p-button-text" onClick={handleClick}>
-        Generar lista
-      </Button>
-      }
+      {ready ? (
+        <CSVLink data={content} filename={"dataMerge.csv"}>
+          Download csv
+        </CSVLink>
+      ) : (
+        <Button className="p-button-text" onClick={handleClick}>
+          Generar lista
+        </Button>
+      )}
     </div>
   );
 };
@@ -459,29 +448,25 @@ const Location = () => {
   return (
     <section className="app-location__container" id="location">
       <div className="app-location__container-letter">
-        <h1 className="app-location__container-content-title">MIRAVALLE</h1>
-        <p className="app-location__container-content-subtitle">
+        <h1 className="app-location__container-letter-title">MIRAVALLE</h1>
+        <p className="app-location__container-letter-subtitle">
           Hotel Campestre
         </p>
         <br />
+        <p className="app-location__container-letter-description">
+          La recepcion será en el hotel miravalle que esta ubicado a la entrada
+          del corregimiento{" "}
+          <b className="app-location__container-content-description-header-bold">
+            El Bordo, Cauca
+          </b>
+          en donde hay un salon de eventos y dos piscinas en las cuales se exige
+          el uso de <b>traje de baño en licra</b> que se recomienda llevar.
+          Tambien es de saber que la temperatura de la localidad es alta, por lo
+          que se recomienda ropa fresca para su comodidad
+        </p>
       </div>
       <div className="app-location__container-content">
         <div className="app-location__container-content-description">
-          <div className="app-location__container-content-description-header">
-            <p className="app-location__container-content-description-header-text">
-              La recepcion será en el hotel miravalle que esta ubicado a la
-              entrada del corregimiento{" "}
-              <b className="app-location__container-content-description-header-bold">
-                El Bordo, Cauca
-              </b>{" "}
-              en donde hay un salon de eventos y dos piscinas en las cuales se
-              exige el uso de <b>traje de baño en licra</b> que se recomienda
-              llevar.
-              <br />
-              Tambien es de saber que la temperatura de la localidad es alta,
-              por lo que se recomienda ropa fresca para su comodidad
-            </p>
-          </div>
           <div className="app-location__container-content-description-gallery">
             <h2>Galeria de fotos</h2>
             <br />
@@ -494,8 +479,7 @@ const Location = () => {
           <div className="app-location__container-content-map-canvas">
             <iframe
               className="app-location__container-content-map-canvas-iframe"
-              width="100%"
-              src="https://maps.google.com/maps?width=675&amp;height=400&amp;hl=en&amp;q=Miravalle, El Bordo&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              src="https://maps.google.com/maps?&amp;hl=es&amp;q=Miravalle, El Bordo&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
             />
           </div>
         </div>
@@ -600,12 +584,57 @@ const GalleriaResponsiveDemo = () => {
           style={{ maxWidth: "800px" }}
           item={itemTemplate}
           showThumbnails={false}
-          showIndicators
           changeItemOnIndicatorHover
           autoPlay
           transitionInterval={2000}
         />
       </div>
     </div>
+  );
+};
+
+const Confirm = () => {
+  return (
+    <section className="app-confirm__container" id="confirm">
+      <Card className="app-confirm__container-content">
+        <div className="app-confirm__container-content-body">
+          <div className="app-confirm__container-content-body-rounded">
+            <i className="pi pi-check" />
+          </div>
+          <h1>Porfavor confirma tu invitacion</h1>
+          <p className="app-confirm__container-content-body-status">
+            El estado de tu invitacion es:{" "}
+            <b className="app-confirm__container-content-body-status-bold">
+              NO CONFIRMADO
+            </b>
+          </p>
+          <p className="app-confirm__container-content-body-text">
+            Para nosotros es muy importante contar con tu presencia, pero
+            tambien somos concientes si estas en una situacion en la que no nos
+            podras acopañar, porfavor confirmanos si podras estar con nosotros
+            ese día
+          </p>
+          <h3>¿Vas a poder estar?</h3>
+          <div className="app-confirm__container-content-body-buttons">
+            <Button
+              icon="pi pi-check"
+              className="p-button-rounded p-button-success"
+              aria-label="Filter"
+            />
+            <Button
+              icon="pi pi-times"
+              className="p-button-rounded p-button-danger"
+              aria-label="Filter"
+            />
+          </div>
+          <p className="app-confirm__container-content-body-footer">
+            * Recuerda que puedes cambiar tu confirmacion hasta el dia{" "}
+            <b className="app-confirm__container-content-body-footer-bold">
+              10 de Diciembre de 2022
+            </b>
+          </p>
+        </div>
+      </Card>
+    </section>
   );
 };

@@ -1,6 +1,7 @@
 import "./Navbar.component.scss";
-import { Menubar } from "primereact/menubar";
+
 import { Link } from "react-router-dom";
+import { Menubar } from "primereact/menubar";
 
 const Navbar = () => {
 
@@ -78,7 +79,7 @@ const Navbar = () => {
     {
       label: 'Confirmar Invitacion',
       icon: 'pi pi-fw pi-check',
-      url: '#confirm-invitation'
+      url: '#confirm'
     }
   ]
 
