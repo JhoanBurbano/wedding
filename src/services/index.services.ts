@@ -85,12 +85,12 @@ const useFamilies = () => {
     }
   }
 
-  async function getCSV(): Promise<string | undefined> {
+  async function getCSV(): Promise<string[][] | undefined> {
     try {
       const {
-        data: { url: base64 },
-      } = await axios.get<IResposnseCSV>(`${url}families/datamerge`);
-      return base64;
+        data,
+      } = await axios.get<string[][]>(`${url}families/datamerge`);
+      return data;
     } catch (error) {
       console.log("error", error);
     }

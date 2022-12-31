@@ -1,23 +1,26 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
-import { Card } from "primereact/card";
-import Navbar from "../Navbar/Navbar.component";
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./LandingPage.component.scss";
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
+
+import { Accordion, AccordionTab } from "primereact/accordion";
 import {
   DataTable,
   DataTableExpandedRows,
   DataTableRowToggleParams,
 } from "primereact/datatable";
-import { Dialog } from "primereact/dialog";
 import { Dropdown, DropdownChangeParams } from "primereact/dropdown";
-import React, { FormEvent, useRef, useState } from "react";
-import { IServices, IInvites, IFamilies } from "../../interfaces";
-import { InputText } from "primereact/inputtext";
-import { Accordion, AccordionTab } from "primereact/accordion";
-import { capitalized } from "../../utils/capitalized";
-import { downloadBase64File } from "../../utils/downloadFile";
+import { IFamilies, IInvites, IServices } from "../../interfaces";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
+
+import { Button } from "primereact/button";
+import { CSVLink } from "react-csv";
+/* eslint-disable jsx-a11y/iframe-has-title */
+import { Card } from "primereact/card";
+import { Column } from "primereact/column";
+// import { Dialog } from "primereact/dialog";
 import { Galleria } from "primereact/galleria";
+import { InputText } from "primereact/inputtext";
+import Navbar from "../Navbar/Navbar.component";
+import { capitalized } from "../../utils/capitalized";
 
 const LandingPage: React.FC<IServices> = (props) => {
   // useEffect(() => {
@@ -102,38 +105,9 @@ const Admin: React.FC<IServices> = (props) => {
     }
   }
 
-  function onHide() {
-    setOpenD(false);
-  }
-
-  const renderFooter = () => {
-    return (
-      <div>
-        <Button
-          label="Cancelar"
-          icon="pi pi-times"
-          onClick={() => onHide()}
-          autoFocus
-          className="p-button-text"
-        />
-      </div>
-    );
-  };
-
-  const collapseAll = () => {
-    setExpandedRows(undefined);
-  };
-
-  const expandAll = () => {
-    let _expandedRows: Record<string, any> = {};
-    families.forEach((p) => (_expandedRows[`${p._id as string}`] = true));
-
-    setExpandedRows(_expandedRows);
-  };
-
   function rowExpansionTemplate(data: IFamilies) {
     return (
-      data.integrants.length && (
+      data.integrants.length ? (
         <DataTable
           className=""
           value={data.integrants}
@@ -169,21 +143,29 @@ const Admin: React.FC<IServices> = (props) => {
           ></Column>
           <Column
             body={({ _id }: IInvites) => (
-              <>
+              <div
+                style={{
+                  width: "6ch",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  margin: "0 auto",
+                }}
+              >
                 <Button
-                  className="p-button-danger"
-                  style={{ transform: "scale(.5)" }}
+                  className="p-button-danger p-button-sm"
+                  style={{ padding: "1px", width: "3ch", height: "3ch" }}
                   icon="pi pi-delete-left"
                   onClick={() =>
                     deleteMember(data._id as string, _id as string)
                   }
                 />
-              </>
+              </div>
             )}
             header="Acciones"
           ></Column>
         </DataTable>
-      )
+      ) :
+      null
     );
   }
 
@@ -220,7 +202,13 @@ const Admin: React.FC<IServices> = (props) => {
             responsiveLayout="scroll"
             rowExpansionTemplate={rowExpansionTemplate}
             dataKey="_id"
-            header={() => <DownloadCSV {...props} />}
+            header={
+              families.length > 0 ? (
+                () => <DownloadCSV {...props} />
+              ) : (
+                <h3>Familias</h3>
+              )
+            }
             size="small"
           >
             <Column expander={allowExpansion} style={{ width: "3em" }} />
@@ -253,19 +241,27 @@ const Admin: React.FC<IServices> = (props) => {
             ></Column>
             <Column
               body={({ _id }: IInvites) => (
-                <>
+                <div
+                  style={{
+                    width: "6ch",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    margin: "0 auto",
+                  }}
+                >
                   <Button
-                    style={{ transform: "scale(.5)" }}
+                    style={{ padding: "1px", width: "3ch", height: "3ch" }}
                     icon="pi pi-pencil"
+                    className="p-button-sm"
                     onClick={() => openDialog(_id as string)}
                   />
                   <Button
-                    className="p-button-danger"
-                    style={{ transform: "scale(.5)" }}
+                    className="p-button-danger p-button-sm"
+                    style={{ padding: "1px", width: "3ch", height: "3ch" }}
                     icon="pi pi-delete-left"
                     onClick={() => deleteFamily(_id as string)}
                   />
-                </>
+                </div>
               )}
               header="Acciones"
             ></Column>
@@ -423,21 +419,36 @@ const AddMember: React.FC<IServices> = ({ addMemeber, families }) => {
   );
 };
 
-const DownloadCSV: React.FC<IServices> = ({ getCSV }) => {
+const DownloadCSV: React.FC<IServices> = ({ getCSV, getFamilies, families }) => {
+  const [content, setContent] = useState<Array<string[]>>([]);
+  const [ready, setReady] = useState<boolean>(false)
+
+  useEffect(()=>{
+    setReady(false)
+  }, [getFamilies, families])
   async function handleClick() {
     try {
-      const base64 = await getCSV();
-      downloadBase64File(base64 as string);
+      const parse = (await getCSV()) as string[][];
+      setContent(parse);
+      setReady(true)
     } catch (error) {
       console.log("error :>> ", error);
     }
   }
+
   return (
     <div className="app-download__container">
-      <p>Familias</p>
-      <Button onClick={handleClick} className="p-button-text">
+      <h3>Familias</h3>
+      {
+       ready ?  
+      <CSVLink data={content} filename={"dataMerge.csv"}>
         Download csv
+      </CSVLink>
+      :
+      <Button className="p-button-text" onClick={handleClick}>
+        Generar lista
       </Button>
+      }
     </div>
   );
 };
@@ -447,49 +458,47 @@ const DownloadCSV: React.FC<IServices> = ({ getCSV }) => {
 const Location = () => {
   return (
     <section className="app-location__container" id="location">
-        <div className="app-location__container-letter">
-        <h1 className="app-location__container-content-title">
-            MIRAVALLE
-          </h1>
-          <p className="app-location__container-content-subtitle">
-            Hotel Campestre
-          </p>
-          <br />
-        </div>
-      <div className="app-location__container-content">
-      <div className="app-location__container-content-description">
-        <div className="app-location__container-content-description-header">
-          <p className="app-location__container-content-description-header-text">
-            La recepcion será en el hotel miravalle que esta ubicado a la
-            entrada del corregimiento{" "}
-            <b className="app-location__container-content-description-header-bold">
-              El Bordo, Cauca
-            </b>{" "}
-            en donde hay un salon de eventos y dos piscinas en las cuales se
-            exige el uso de <b>traje de baño en licra</b> que se recomienda
-            llevar.
-            <br />
-            Tambien es de saber que la temperatura de la localidad es alta, por
-            lo que se recomienda ropa fresca para su comodidad
-          </p>
-        </div>
-        <div className="app-location__container-content-description-gallery">
-          <h2>Galeria de fotos</h2>
-          <br />
-          <GalleriaResponsiveDemo />
-        </div>
-      </div>
-      <div className="app-location__container-content-map">
-        <h2>Ubicacion</h2>
+      <div className="app-location__container-letter">
+        <h1 className="app-location__container-content-title">MIRAVALLE</h1>
+        <p className="app-location__container-content-subtitle">
+          Hotel Campestre
+        </p>
         <br />
-        <div className="app-location__container-content-map-canvas">
-          <iframe
-            className="app-location__container-content-map-canvas-iframe"
-            width="100%"
-            src="https://maps.google.com/maps?width=675&amp;height=400&amp;hl=en&amp;q=Miravalle, El Bordo&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-          />
-        </div>
       </div>
+      <div className="app-location__container-content">
+        <div className="app-location__container-content-description">
+          <div className="app-location__container-content-description-header">
+            <p className="app-location__container-content-description-header-text">
+              La recepcion será en el hotel miravalle que esta ubicado a la
+              entrada del corregimiento{" "}
+              <b className="app-location__container-content-description-header-bold">
+                El Bordo, Cauca
+              </b>{" "}
+              en donde hay un salon de eventos y dos piscinas en las cuales se
+              exige el uso de <b>traje de baño en licra</b> que se recomienda
+              llevar.
+              <br />
+              Tambien es de saber que la temperatura de la localidad es alta,
+              por lo que se recomienda ropa fresca para su comodidad
+            </p>
+          </div>
+          <div className="app-location__container-content-description-gallery">
+            <h2>Galeria de fotos</h2>
+            <br />
+            <GalleriaResponsiveDemo />
+          </div>
+        </div>
+        <div className="app-location__container-content-map">
+          <h2>Ubicacion</h2>
+          <br />
+          <div className="app-location__container-content-map-canvas">
+            <iframe
+              className="app-location__container-content-map-canvas-iframe"
+              width="100%"
+              src="https://maps.google.com/maps?width=675&amp;height=400&amp;hl=en&amp;q=Miravalle, El Bordo&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

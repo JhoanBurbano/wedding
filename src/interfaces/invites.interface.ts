@@ -20,7 +20,8 @@ export interface IUpdateName {
 
 export interface IResposnseCSV {
     message: string,
-    url: string
+    url: string,
+    content: string
 }
 
 export interface IServices {
@@ -35,5 +36,5 @@ export interface IServices {
     getInvite: (id: string) => Promise<void>;
     addMemeber: (invite: IInvites) => Promise<void>
     deleteMember: (idFamily: string, idInvite: string)=>Promise<void>
-    getCSV: ()=>Promise<string | undefined>
+    getCSV: ()=>Promise<string[][] | undefined>
   }
