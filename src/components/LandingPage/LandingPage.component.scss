@@ -16,7 +16,7 @@
     position: relative;
     &-video {
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 70px);
       background: black;
     }
     &-controls {
