@@ -267,12 +267,21 @@ const CreateForm: React.FC<IServices> = ({ createFamily }) => {
   });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setData((state) => {
-      return {
-        ...state,
-        [event.target?.name]: Number.isInteger(event.target?.value) ? parseInt(event.target?.value) : event.target?.value,
-      };
-    });
+    if(event.target.name === 'total'){
+      setData((state) => {
+        return {
+          ...state,
+          [event.target?.name]:  parseInt(event.target?.value),
+        };
+      });
+    } else{
+      setData((state) => {
+        return {
+          ...state,
+          [event.target?.name]:  event.target?.value,
+        };
+      });
+    }
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
