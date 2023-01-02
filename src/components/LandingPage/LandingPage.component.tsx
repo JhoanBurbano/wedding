@@ -10,8 +10,7 @@ import {
 } from "primereact/datatable";
 import { Dropdown, DropdownChangeParams } from "primereact/dropdown";
 import { IFamilies, IInvites, IServices } from "../../interfaces";
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import { CSVLink } from "react-csv";
@@ -19,9 +18,11 @@ import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 // import { Dialog } from "primereact/dialog";
 import { Galleria } from "primereact/galleria";
+import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import Navbar from "../Navbar/Navbar.component";
 import { capitalized } from "../../utils/capitalized";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage: React.FC<IServices> = (props) => {
   return (
@@ -262,19 +263,14 @@ const Admin: React.FC<IServices> = (props) => {
 const CreateForm: React.FC<IServices> = ({ createFamily }) => {
   const [data, setData] = useState({
     family: "",
+    total: 2
   });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(
-      "event.target.name, event.target.value :>> ",
-      event.target.name,
-      event.target.value,
-      data
-    );
     setData((state) => {
       return {
         ...state,
-        [event.target?.name]: event.target?.value,
+        [event.target?.name]: Number.isInteger(event.target?.value) ? parseInt(event.target?.value) : event.target?.value,
       };
     });
   }
@@ -282,7 +278,7 @@ const CreateForm: React.FC<IServices> = ({ createFamily }) => {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await createFamily({ ...data });
-    setData({ family: "" });
+    setData({ family: "", total: 2});
   }
   return (
     <Accordion>
@@ -299,8 +295,19 @@ const CreateForm: React.FC<IServices> = ({ createFamily }) => {
               <label>Nombre</label>
             </span>
           </div>
+          <div className="app-createform__container-field">
+            <span className="p-float-label p-input-icon-right">
+              <InputText
+                name="total"
+                onChange={handleChange}
+                className="w-100"
+                value={data.total}
+              />
+              <label>Numero de peronas</label>
+            </span>
+          </div>
           <Button
-            disabled={!data.family.length}
+            disabled={!(data.family.trim().length > 2)}
             className="app-createform__container-button"
           >
             Crear
