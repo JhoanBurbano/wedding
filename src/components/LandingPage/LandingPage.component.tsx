@@ -438,7 +438,7 @@ const DownloadCSV: React.FC<IServices> = ({
     <div className="app-download__container">
       <h3>Familias</h3>
       {ready ? (
-        <CSVLink data={content} filename={"dataMerge.csv"}>
+        <CSVLink data={content} filename={"dataMerge.csv"} enclosingCharacter={''} >
           Download csv
         </CSVLink>
       ) : (
