@@ -1,4 +1,4 @@
-import { IFamilies, IInvites, IResposnseCSV, IUpdateName } from "../interfaces";
+import { IFamilies, IInvites, IUpdateName } from "../interfaces";
 import { useCallback, useEffect, useState } from "react";
 
 import axios from "axios";
@@ -6,7 +6,7 @@ import axios from "axios";
 const useFamilies = () => {
   const url = process.env.REACT_APP_URL as string;
   const [invite, setInvite] = useState<IInvites | {}>({});
-  const [family, setFamily] = useState<IFamilies | {}>({});
+  const [family, setFamily] = useState<IFamilies>();
   const [families, setFamilies] = useState<Array<IFamilies>>([]);
 
   const getFamilies = useCallback(async () => {
@@ -20,7 +20,7 @@ const useFamilies = () => {
 
   async function getFamily(id: string) {
     try {
-      const { data } = await axios.get<IInvites>(`${url}families/${id}`);
+      const { data } = await axios.get<IFamilies>(`${url}families/${id}`);
       setFamily(data);
     } catch (error) {
       console.log("error", error);
@@ -96,6 +96,15 @@ const useFamilies = () => {
     }
   }
 
+  async function confirmInvitation(id: string, confirm: boolean):Promise<string | undefined> {
+    try {
+      const { data: {message: data} } = await axios.put<{message: string}>(`${url}families/${id}/confirm`, {confirm})
+      return data;
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   useEffect(() => {
     getFamilies();
   }, []);
@@ -113,6 +122,7 @@ const useFamilies = () => {
     deleteMember,
     getInvite,
     getCSV,
+    confirmInvitation
   };
 };
 

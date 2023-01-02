@@ -139,7 +139,7 @@
 
 
 
-.app-confirm {
+.app-confirmx {
   &__container {
     height: calc(100vh - 0px);
     padding-top: 80px!important;
@@ -166,7 +166,7 @@
             }
             &-status {
                 font-weight: 200;
-                width: 60%;
+                width: 70%;
                 border: 1px solid green;
                 padding: 10px;
                 margin: 20px 0;
@@ -181,7 +181,7 @@
                 justify-content: space-evenly;
             }
             &-text{
-                width: 80%;
+                width: 90%;
                 text-align: justify;
             }
             &-footer {

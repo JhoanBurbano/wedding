@@ -10,7 +10,8 @@ import {
 } from "primereact/datatable";
 import { Dropdown, DropdownChangeParams } from "primereact/dropdown";
 import { IFamilies, IInvites, IServices } from "../../interfaces";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Button } from "primereact/button";
 import { CSVLink } from "react-csv";
@@ -594,6 +595,16 @@ const GalleriaResponsiveDemo = () => {
 };
 
 const Confirm = () => {
+  const [code, setcode] = useState('')
+  const navigation = useNavigate()
+
+  function handleSetCode(event: React.ChangeEvent<HTMLInputElement>){
+    setcode(event?.target?.value)
+  }
+
+  function searchCode(){
+    navigation(code)
+  }
   return (
     <section className="app-confirm__container" id="confirm">
       <Card className="app-confirm__container-content">
@@ -602,20 +613,26 @@ const Confirm = () => {
             <i className="pi pi-check" />
           </div>
           <h1>Porfavor confirma tu invitacion</h1>
-          <p className="app-confirm__container-content-body-status">
+          {/* <p className="app-confirm__container-content-body-status">
             El estado de tu invitacion es:{" "}
             <b className="app-confirm__container-content-body-status-bold">
               NO CONFIRMADO
             </b>
-          </p>
+          </p> */}
           <p className="app-confirm__container-content-body-text">
             Para nosotros es muy importante contar con tu presencia, pero
             tambien somos concientes si estas en una situacion en la que no nos
             podras acopañar, porfavor confirmanos si podras estar con nosotros
             ese día
           </p>
-          <h3>¿Vas a poder estar?</h3>
-          <div className="app-confirm__container-content-body-buttons">
+          <h3>Ingresa tu codigo de invitacion</h3>
+          <form className="app-confirm_container-content-body-form">
+            <span>
+              <InputText onChange={handleSetCode}/>
+              <Button icon="pi pi-search" value="Buscar" name="Buscar" title="Buscar tu invitacion" onClick={searchCode}/>
+            </span>
+          </form>
+          {/* <div className="app-confirm__container-content-body-buttons">
             <Button
               icon="pi pi-check"
               className="p-button-rounded p-button-success"
@@ -626,7 +643,7 @@ const Confirm = () => {
               className="p-button-rounded p-button-danger"
               aria-label="Filter"
             />
-          </div>
+          </div> */}
           <p className="app-confirm__container-content-body-footer">
             * Recuerda que puedes cambiar tu confirmacion hasta el dia{" "}
             <b className="app-confirm__container-content-body-footer-bold">
