@@ -37,6 +37,7 @@ const Confirm: React.FC<IServices> = ({
           <div className="app-confirm__container-content-body-rounded">
             <i className="pi pi-check" />
           </div>
+          <h3>{family.family.toUpperCase()}</h3>
           <h1>Porfavor confirma tu invitacion</h1>
           <p className={"app-confirm__container-content-body-status"+(family.confirm ? '-true' : '-false')}>
             El estado de tu invitacion es:{" "}
