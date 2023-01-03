@@ -97,8 +97,8 @@
 
 .app-location__container {
   height: calc(100vh - 0px);
-  padding-top: 80px!important;
-  &-letter{
+  padding-top: 80px !important;
+  &-letter {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,7 +108,7 @@
       line-height: 2ch;
     }
   }
-  &-content{
+  &-content {
     display: flex;
     justify-content: space-evenly;
     width: 80%;
@@ -137,63 +137,84 @@
   }
 }
 
-
-
 .app-confirmx {
   &__container {
     height: calc(100vh - 0px);
-    padding-top: 80px!important;
+    padding-top: 80px !important;
     display: flex;
     align-items: center;
     &-content {
-        width: 700px;
-        &-body{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            & > * {
-                margin-bottom: 10px;
-            }
-            &-rounded {
-                width: 50px;
-                height: 50px;
-                border: 1px solid green;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            &-status {
-                font-weight: 200;
-                width: 70%;
-                border: 1px solid green;
-                padding: 10px;
-                margin: 20px 0;
-                border-radius: 30px;
-                &-bold{
-                    color: green;
-                }
-            }
-            &-buttons{
-                width: 40%;
-                display: flex;
-                justify-content: space-evenly;
-            }
-            &-text{
-                width: 90%;
-                text-align: justify;
-            }
-            &-footer {
-                color: rgb(139, 79, 0);
-                width: 80%;
-                font-weight: 150;
-                text-align: justify;
-                &-bold{
-                    font-weight: 250;
-                }
-            }
+      width: 700px;
+      &-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        & > * {
+          margin-bottom: 10px;
         }
+        &-rounded {
+          width: 50px;
+          height: 50px;
+          border: 1px solid green;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        &-status {
+          font-weight: 200;
+          width: 70%;
+          border: 1px solid green;
+          padding: 10px;
+          margin: 20px 0;
+          border-radius: 30px;
+          &-bold {
+            color: green;
+          }
+        }
+        &-buttons {
+          width: 40%;
+          display: flex;
+          justify-content: space-evenly;
+        }
+        &-text {
+          width: 90%;
+          text-align: justify;
+        }
+        &-footer {
+          color: rgb(139, 79, 0);
+          width: 80%;
+          font-weight: 150;
+          text-align: justify;
+          &-bold {
+            font-weight: 250;
+          }
+        }
+      }
+    }
+  }
+}
+
+.app-sign__container {
+  height: calc(100vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  & h1 {
+    text-align: center;
+    margin: 10px 0;
+  }
+  & form{
+    display: flex;
+    width: 500px!important;
+    height: 200px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    & input {
+      width: 300px;
     }
   }
 }

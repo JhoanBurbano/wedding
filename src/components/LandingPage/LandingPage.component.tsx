@@ -21,6 +21,7 @@ import { Galleria } from "primereact/galleria";
 import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import Navbar from "../Navbar/Navbar.component";
+import { Password } from "primereact/password";
 import { capitalized } from "../../utils/capitalized";
 import { useNavigate } from "react-router-dom";
 
@@ -85,6 +86,7 @@ const Video: React.FC<{}> = () => {
 
 const Admin: React.FC<IServices> = (props) => {
   const { getFamily, deleteFamily, families, deleteMember } = props;
+  const [sign, setsign] = useState(false);
 
   const [openD, setOpenD] = useState(false);
   const [expandedRows, setExpandedRows] = useState<DataTableExpandedRows>();
@@ -95,6 +97,15 @@ const Admin: React.FC<IServices> = (props) => {
       setOpenD(true);
     } catch (error) {
       console.log("error :>> ", error);
+    }
+  }
+
+  function handleSign(e: FormEvent) {
+    e.preventDefault()
+    const user = document.getElementById("user") as HTMLInputElement;
+    const pass = document.getElementById("pass") as HTMLInputElement;
+    if(user.value === "mypasscontrol" && pass.value==="secretpass123"){
+      setsign(true)
     }
   }
 
@@ -161,7 +172,7 @@ const Admin: React.FC<IServices> = (props) => {
     return rowData.integrants.length > 0;
   };
 
-  return (
+  return sign ? (
     <section className="app-admin__container" id="list">
       {/* <Dialog
         header="Header"
@@ -178,7 +189,11 @@ const Admin: React.FC<IServices> = (props) => {
           <CreateForm {...props} />
           <AddMember {...props} />
           {families.length ? <h4>Hay {families.length} familias</h4> : null}
-          {families.length ? <h4>Hay {families?.reduce((acc, cur)=>acc + cur.total,0)} familias</h4> : null}
+          {families.length ? (
+            <h4>
+              Hay {families?.reduce((acc, cur) => acc + cur.total, 0)} familias
+            </h4>
+          ) : null}
         </div>
         <Card className="app-admin__container-content-card">
           <DataTable
@@ -258,28 +273,45 @@ const Admin: React.FC<IServices> = (props) => {
         </Card>
       </div>
     </section>
+  ) : (
+    <section className="app-sign__container" id="list">
+      <Card>
+        <h1 className="app-sign__container-tittle">Iniciar Sesion</h1>
+        <form className="app-sign__container-form">
+          <span className="p-float-label p-input-icon-right">
+            <InputText id="user" />
+            <label>Usuario</label>
+          </span>
+          <span className="p-float-label p-input-icon-right">
+            <Password feedback={false} inputId="pass"></Password>
+            <label>Password</label>
+          </span>
+          <Button onClick={handleSign}>Iniciar Sesion</Button>
+        </form>
+      </Card>
+    </section>
   );
 };
 
 const CreateForm: React.FC<IServices> = ({ createFamily }) => {
   const [data, setData] = useState({
     family: "",
-    total: 2
+    total: 2,
   });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if(event.target.name === 'total'){
+    if (event.target.name === "total") {
       setData((state) => {
         return {
           ...state,
-          [event.target?.name]:  parseInt(event.target?.value),
+          [event.target?.name]: parseInt(event.target?.value),
         };
       });
-    } else{
+    } else {
       setData((state) => {
         return {
           ...state,
-          [event.target?.name]:  event.target?.value,
+          [event.target?.name]: event.target?.value,
         };
       });
     }
@@ -288,7 +320,7 @@ const CreateForm: React.FC<IServices> = ({ createFamily }) => {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await createFamily({ ...data });
-    setData({ family: "", total: 2});
+    setData({ family: "", total: 2 });
   }
   return (
     <Accordion>
@@ -448,7 +480,11 @@ const DownloadCSV: React.FC<IServices> = ({
     <div className="app-download__container">
       <h3>Familias</h3>
       {ready ? (
-        <CSVLink data={content} filename={"dataMerge.csv"} enclosingCharacter={''} >
+        <CSVLink
+          data={content}
+          filename={"dataMerge.csv"}
+          enclosingCharacter={""}
+        >
           Download csv
         </CSVLink>
       ) : (
@@ -612,15 +648,15 @@ const GalleriaResponsiveDemo = () => {
 };
 
 const Confirm = () => {
-  const [code, setcode] = useState('')
-  const navigation = useNavigate()
+  const [code, setcode] = useState("");
+  const navigation = useNavigate();
 
-  function handleSetCode(event: React.ChangeEvent<HTMLInputElement>){
-    setcode(event?.target?.value)
+  function handleSetCode(event: React.ChangeEvent<HTMLInputElement>) {
+    setcode(event?.target?.value);
   }
 
-  function searchCode(){
-    navigation(code)
+  function searchCode() {
+    navigation(code);
   }
   return (
     <section className="app-confirm__container" id="confirm">
@@ -645,8 +681,14 @@ const Confirm = () => {
           <h3>Ingresa tu codigo de invitacion</h3>
           <form className="app-confirm_container-content-body-form">
             <span>
-              <InputText onChange={handleSetCode}/>
-              <Button icon="pi pi-search" value="Buscar" name="Buscar" title="Buscar tu invitacion" onClick={searchCode}/>
+              <InputText onChange={handleSetCode} />
+              <Button
+                icon="pi pi-search"
+                value="Buscar"
+                name="Buscar"
+                title="Buscar tu invitacion"
+                onClick={searchCode}
+              />
             </span>
           </form>
           {/* <div className="app-confirm__container-content-body-buttons">
