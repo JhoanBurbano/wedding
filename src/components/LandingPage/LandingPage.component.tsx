@@ -191,9 +191,10 @@ const Admin: React.FC<IServices> = (props) => {
           {families.length ? <h4>Hay {families.length} familias</h4> : null}
           {families.length ? (
             <h4>
-              Hay {families?.reduce((acc, cur) => acc + cur.total, 0)} familias
+              Hay {families?.reduce((acc, cur) => acc + cur.total, 0)} invitados
             </h4>
           ) : null}
+          {families.reduce((acc, cur)=> cur.confirm ? acc + cur.total : acc,0)} Confirmaron
         </div>
         <Card className="app-admin__container-content-card">
           <DataTable
