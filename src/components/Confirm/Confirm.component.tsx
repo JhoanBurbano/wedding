@@ -69,7 +69,7 @@ const Confirm: React.FC<IServices> = ({
           <p className="app-confirm__container-content-body-footer">
             * Recuerda que puedes cambiar tu confirmacion hasta el dia{" "}
             <b className="app-confirm__container-content-body-footer-bold">
-              10 de Diciembre de 2022
+              10 de Enero de 2023
             </b>
           </p>
         </div>
