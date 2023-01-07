@@ -1,11 +1,11 @@
 import './Confirm.component.scss'
 
 import { IFamilies, IServices } from "../../interfaces";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
-import { useParams } from "react-router-dom";
 
 const Confirm: React.FC<IServices> = ({
   getFamily,
@@ -72,6 +72,7 @@ const Confirm: React.FC<IServices> = ({
               10 de Enero de 2023
             </b>
           </p>
+        <Link to="/" className='app-confirm__container-content-link p-button p-button-success'>Ver el sitio web</Link>
         </div>
       </Card>
     </section>
