@@ -100,6 +100,11 @@ const Admin: React.FC<IServices> = (props) => {
     }
   }
 
+  async function confirmInvite(value: boolean, id: string){
+    await props.confirmInvitation(id, value);
+    await props.getFamilies();
+  }
+
   function handleSign(e: FormEvent) {
     e.preventDefault()
     const user = document.getElementById("user") as HTMLInputElement;
@@ -236,11 +241,11 @@ const Admin: React.FC<IServices> = (props) => {
             <Column
               field="confirm"
               header="Confirmado"
-              body={({ confirm }: IFamilies) => {
+              body={({ confirm, _id }: IFamilies) => {
                 return confirm ? (
-                  <i style={{ color: "green" }} className="pi pi-check"></i>
+                  <i style={{ color: "green" }} className="pi pi-check" onClick={()=>confirmInvite(false, _id as string)}></i>
                 ) : (
-                  <i style={{ color: "red" }} className="pi pi-times"></i>
+                  <i style={{ color: "red" }} className="pi pi-times" onClick={()=>confirmInvite(true, _id as string)}></i>
                 );
               }}
             ></Column>
